@@ -2,32 +2,52 @@ package model;
 
 public class Account {
 
-    private int accountid;
-    private String firstname;
-    private String lastname;
+    private int id;
+    private int artistid;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String password;
 
-    public int getAccountid() {
-        return accountid;
+    public Account(int id, int artistid, String firstName, String lastName, String email, String password) {
+        this.id = id;
+        this.artistid = artistid;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
     }
 
-    public void setAccountid(int accountid) {
-        this.accountid = accountid;
+    public int getId() {
+        return id;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public int getArtistid() {
+        return artistid;
     }
 
-    public String getLastname() {
-        return lastname;
+    public void setArtistid(int artistid) {
+        this.artistid = artistid;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -38,34 +58,11 @@ public class Account {
         this.email = email;
     }
 
-    public boolean isMembership() {
-        return membership;
+    public String getPassword() {
+        return password;
     }
 
-    public void setMembership(boolean membership) {
-        this.membership = membership;
+    public void setPassword(String password) {
+        this.password = password;
     }
-
-    public String getReigon() {
-        return reigon;
-    }
-
-    public void setReigon(String reigon) {
-        this.reigon = reigon;
-    }
-
-    public Account(int accountid, String firstname, String lastname, String email, boolean membership, String reigon) {
-        this.accountid = accountid;
-        this.firstname = firstname;
-
-        this.lastname = lastname;
-        this.email = email;
-        this.membership = membership;
-        this.reigon = reigon;
-    }
-
-    private String email;
-    private boolean membership;
-    private String reigon;
-
 }

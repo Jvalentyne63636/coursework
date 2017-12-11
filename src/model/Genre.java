@@ -2,29 +2,29 @@ package model;
 
 public class Genre {
 
-    private int genreid;
+    private int id;
 
-    public int getGenreid() {
-        return genreid;
+    public Genre(int id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
-    public void setGenreid(int genreid) {
-        this.genreid = genreid;
+    public int getId() {
+        return id;
     }
 
-    public String getGenrename() {
-        return genrename;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setGenrename(String genrename) {
-        this.genrename = genrename;
+    public String getName() {
+        return name;
     }
 
-    public Genre(int genreid, String genrename) {
-        this.genreid = genreid;
-        this.genrename = genrename;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    private String genrename;
+    private String name;
 
 }

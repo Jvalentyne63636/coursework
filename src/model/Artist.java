@@ -2,40 +2,27 @@ package model;
 
 public class Artist {
 
-    private int artistid;
-    private String artistname;
+    private int id;
+    private String name;
 
-    public int getArtistid() {
-        return artistid;
+    public int getId() {
+        return id;
     }
 
-    public void setArtistid(int artistid) {
-        this.artistid = artistid;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getArtistname() {
-        return artistname;
+    public String getName() {
+        return name;
     }
 
-    public void setArtistname(String artistname) {
-        this.artistname = artistname;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getAlbumname() {
-        return albumname;
+    public Artist(int id, String name) {
+        this.id = id;
+        this.name = name;
     }
-
-    public void setAlbumname(String albumname) {
-        this.albumname = albumname;
-    }
-
-    public Artist(int artistid, String artistname, String albumname) {
-        this.artistid = artistid;
-        this.artistname = artistname;
-        this.albumname = albumname;
-    }
-
-    private String albumname;
-
-
 }
