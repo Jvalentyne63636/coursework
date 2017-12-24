@@ -74,21 +74,21 @@ public class AccountService {
 
         try {
             if (existingItem == null) {
-                PreparedStatement statement = database.newStatement("INSERT INTO Account VALUES (null, ?, ?, ?, ?, ?, ?)");
-                statement.setInt(2, accountToSave.getArtistid());
-                statement.setString(3, accountToSave.getFirstName());
-                statement.setString(4, accountToSave.getLastName());
-                statement.setString(5, accountToSave.getEmail());
-                statement.setString(6, accountToSave.getPassword());
+                PreparedStatement statement = database.newStatement("INSERT INTO Account VALUES (null, Artistid = ?, FirstName = ?, LastName = ?, Email = ?, Password = ?)");
+                statement.setInt(1, accountToSave.getArtistid());
+                statement.setString(2, accountToSave.getFirstName());
+                statement.setString(3, accountToSave.getLastName());
+                statement.setString(4, accountToSave.getEmail());
+                statement.setString(5, accountToSave.getPassword());
                 database.executeUpdate(statement);
             }
             else {
-                PreparedStatement statement = database.newStatement("UPDATE Account SET 2 = ?, 3 = ?, 4 = ?, 5 = ?, 6 = ? WHERE id = ?");
+                PreparedStatement statement = database.newStatement("UPDATE Account SET ArtistID = ?, FirstName = ?, LastName = ?, Email = ?, Password = ?  WHERE id = ?");
                 statement.setInt(1, accountToSave.getArtistid());
                 statement.setString(2, accountToSave.getFirstName());
-                statement.setString(4, accountToSave.getLastName());
-                statement.setString(5, accountToSave.getEmail());
-                statement.setString(6, accountToSave.getPassword());
+                statement.setString(3, accountToSave.getLastName());
+                statement.setString(4, accountToSave.getEmail());
+                statement.setString(5, accountToSave.getPassword());
                 database.executeUpdate(statement);
             }
 

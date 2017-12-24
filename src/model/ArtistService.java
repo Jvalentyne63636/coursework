@@ -69,13 +69,13 @@ public class ArtistService {
 
         try {
             if (existingItem == null) {
-                PreparedStatement statement = database.newStatement("INSERT INTO Artist VALUES (null, ?)");
-                statement.setInt(2, ArtistToSave.getId());
-                statement.setString(3, ArtistToSave.getName());
+                PreparedStatement statement = database.newStatement("INSERT INTO Artist VALUES (null, ?, ?)");
+                statement.setInt(1, ArtistToSave.getId());
+                statement.setString(2, ArtistToSave.getName());
                 database.executeUpdate(statement);
             }
             else {
-                PreparedStatement statement = database.newStatement("UPDATE Artist SET 2 = ?, 3 = ? WHERE id = ?");
+                PreparedStatement statement = database.newStatement("UPDATE Artist SET Id = ?, Name = ? WHERE id = ?");
                 statement.setInt(1, ArtistToSave.getId());
                 statement.setString(2, ArtistToSave.getName());
                 database.executeUpdate(statement);

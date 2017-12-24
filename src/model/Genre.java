@@ -3,11 +3,7 @@ package model;
 public class Genre {
 
     private int id;
-
-    public Genre(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+    private String name;
 
     public int getId() {
         return id;
@@ -25,6 +21,10 @@ public class Genre {
         this.name = name;
     }
 
-    private String name;
+    public Genre(int id, String name) {
+        this.id = id;
+        this.name = name;
 
+
+    }
 }

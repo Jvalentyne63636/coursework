@@ -16,7 +16,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        DatabaseConnection database = new DatabaseConnection("Coursework.db");
+        DatabaseConnection database = new DatabaseConnection("C:\\Users\\JCval\\Desktop\\coursework-master\\Coursework.db");
 
         AccountService.selectById(3, database);
 
