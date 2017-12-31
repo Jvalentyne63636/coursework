@@ -8,7 +8,7 @@ import java.util.List;
 public class GenreService {
 
     public static void selectAll(List<Genre> targetList, DatabaseConnection database) {
-        PreparedStatement statement = database.newStatement("SELECT * FROM Account");
+        PreparedStatement statement = database.newStatement("SELECT * FROM Genre");
 
         try {
             if (statement != null) {
@@ -37,7 +37,7 @@ public class GenreService {
 
         Genre result = null;
 
-        PreparedStatement statement = database.newStatement("SELECT * FROM Account WHERE id = ?");
+        PreparedStatement statement = database.newStatement("SELECT * FROM Genre WHERE id = ?");
 
         try {
             if (statement != null) {
@@ -66,13 +66,13 @@ public class GenreService {
 
         try {
             if (existingItem == null) {
-                PreparedStatement statement = database.newStatement("INSERT INTO Account VALUES (null, ?, ?)");
+                PreparedStatement statement = database.newStatement("INSERT INTO Genre VALUES (null, ?, ?)");
                 statement.setInt(1, GenreToSave.getId());
                 statement.setString(2, GenreToSave.getName());
                 database.executeUpdate(statement);
             }
             else {
-                PreparedStatement statement = database.newStatement("UPDATE Account SET Id = ?, Name = ? WHERE id = ?");
+                PreparedStatement statement = database.newStatement("UPDATE Genre SET Id = ?, Name = ? WHERE id = ?");
                 statement.setInt(1, GenreToSave.getId());
                 statement.setString(2, GenreToSave.getName());
                 database.executeUpdate(statement);
@@ -85,7 +85,7 @@ public class GenreService {
 
     public static void deleteById(int id, DatabaseConnection database) {
 
-        PreparedStatement statement = database.newStatement("DELETE FROM Account WHERE id = ?");
+        PreparedStatement statement = database.newStatement("DELETE FROM Genre WHERE id = ?");
 
         try {
             if (statement != null) {

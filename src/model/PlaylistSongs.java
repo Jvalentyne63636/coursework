@@ -5,11 +5,6 @@ public class PlaylistSongs {
     private int playlistid;
     private int songid;
 
-    public PlaylistSongs(int playlistid, int songid) {
-        this.playlistid = playlistid;
-        this.songid = songid;
-    }
-
     public int getPlaylistid() {
         return playlistid;
     }
@@ -24,5 +19,11 @@ public class PlaylistSongs {
 
     public void setSongid(int songid) {
         this.songid = songid;
+    }
+
+    public PlaylistSongs(int playlistid, int songid) {
+        this.playlistid = playlistid;
+        this.songid = songid;
+
     }
 }

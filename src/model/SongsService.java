@@ -62,28 +62,55 @@ public class SongsService {
         return result;
     }
 
-    public static void save(Songs SongsToSave, DatabaseConnection database) {
+    public static Songs selectByName(String nameToSearch, DatabaseConnection database) {
+
+        Songs result = null;
+
+        PreparedStatement statement = database.newStatement("SELECT * FROM Songs WHERE name = ?");
+
+        try {
+            if (statement != null) {
+                statement.setString(1, nameToSearch);
+                ResultSet results = database.executeQuery(statement);
+
+                if (results != null) {
+                    int id = results.getInt("id");
+                    int artistid = results.getInt("artistid");
+                    String length = results.getString("length");
+                    String name = results.getString("name");
+                    int genreid = results.getInt("genreid");
+
+                    result = new Songs(id, artistid, length, name, genreid);
+                }
+            }
+        } catch(SQLException resultsException){
+            System.out.println("Database select by id error: " + resultsException.getMessage());
+        }
+        return result;
+    }
+
+    public static void save(Songs songToSave, DatabaseConnection database) {
         Songs existingItem = null;
 
-        if (SongsToSave.getId() != 0) {
-            existingItem = selectById(SongsToSave.getId(), database);
+        if (songToSave.getName() != null) {
+            existingItem = selectById(songToSave.getId(), database);
         }
 
         try {
             if (existingItem == null) {
                 PreparedStatement statement = database.newStatement("INSERT INTO Songs VALUES (null, ?, ?, ?, ?)");
-                statement.setInt(1, SongsToSave.getArtistid());
-                statement.setString(2, SongsToSave.getLength());
-                statement.setString(3, SongsToSave.getName());
-                statement.setInt(4, SongsToSave.getGenreid());
+                statement.setInt(1, songToSave.getArtistid());
+                statement.setString(2, songToSave.getLength());
+                statement.setString(3, songToSave.getName());
+                statement.setInt(4, songToSave.getGenreid());
                 database.executeUpdate(statement);
             }
             else {
                 PreparedStatement statement = database.newStatement("UPDATE Songs SET ArtistID = ?, Length = ?, Name = ?, GenreID = ? WHERE id = ?");
-                statement.setInt(1, SongsToSave.getArtistid());
-                statement.setString(2, SongsToSave.getLength());
-                statement.setString(3, SongsToSave.getName());
-                statement.setInt(4, SongsToSave.getGenreid());
+                statement.setInt(1, songToSave.getArtistid());
+                statement.setString(2, songToSave.getLength());
+                statement.setString(3, songToSave.getName());
+                statement.setInt(4, songToSave.getGenreid());
                 database.executeUpdate(statement);
             }
 
@@ -105,5 +132,20 @@ public class SongsService {
             System.out.println("Database deletion error: " + resultsException.getMessage());
         }
     }
+
+    public static void deleteByName(String name, DatabaseConnection database) {
+
+        PreparedStatement statement = database.newStatement("DELETE FROM Songs WHERE name = ?");
+
+        try {
+            if (statement != null) {
+                statement.setString(1, name);
+                database.executeUpdate(statement);
+            }
+        } catch (SQLException resultsException){
+            System.out.println("Database deletion error: " + resultsException.getMessage());
+        }
+    }
+
 
 }

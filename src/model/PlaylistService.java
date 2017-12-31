@@ -21,7 +21,7 @@ public class PlaylistService {
                 while (results.next()){
                     int id = results.getInt("id");
                     String name = results.getString("name");
-                    int accountid = results.getInt("accountid");
+                    String accountid = results.getString("accountid");
 
 
                     Playlist playlist = new Playlist(id, name, accountid);
@@ -48,7 +48,32 @@ public class PlaylistService {
                 if (results != null) {
                     id = results.getInt("id");
                     String name = results.getString("name");
-                    int accountid = results.getInt("accountid");
+                    String accountid = results.getString("accountid");
+
+                    result = new Playlist(id, name, accountid);
+                }
+            }
+        } catch(SQLException resultsException){
+            System.out.println("Database select by id error: " + resultsException.getMessage());
+        }
+        return result;
+    }
+
+    public static Playlist selectByName(String nameToSearch, DatabaseConnection database) {
+
+        Playlist result = null;
+
+        PreparedStatement statement = database.newStatement("SELECT * FROM Playlist WHERE name = ?");
+
+        try {
+            if (statement != null) {
+                statement.setString(1, nameToSearch);
+                ResultSet results = database.executeQuery(statement);
+
+                if (results != null) {
+                    int id = results.getInt("id");
+                    String name = results.getString("name");
+                     String accountid = results.getString("accountid");
 
                     result = new Playlist(id, name, accountid);
                 }
@@ -62,23 +87,23 @@ public class PlaylistService {
     public static void save(Playlist PlaylistToSave, DatabaseConnection database) {
         Playlist existingItem = null;
 
-        if (PlaylistToSave.getId() != 0) {
+        if (PlaylistToSave.getName() != null) {
             existingItem = selectById(PlaylistToSave.getId(), database);
         }
 
         try {
             if (existingItem == null) {
-                PreparedStatement statement = database.newStatement("INSERT INTO Playlist VALUES (null, ?, ?, ?)");
-                statement.setInt(1, PlaylistToSave.getId());
-                statement.setString(2, PlaylistToSave.getName());
-                statement.setInt(3, PlaylistToSave.getAccountid());
+                PreparedStatement statement = database.newStatement("INSERT INTO Playlist VALUES (null, ?, ?)");
+   //             statement.setInt(1, PlaylistToSave.getId());
+                statement.setString(1, PlaylistToSave.getName());
+                statement.setString(2, PlaylistToSave.getAccountid());
                 database.executeUpdate(statement);
             }
             else {
                 PreparedStatement statement = database.newStatement("UPDATE Playlist SET Id = ?, Name = ?, Accountid = ? WHERE id = ?");
-                statement.setInt(1, PlaylistToSave.getId());
-                statement.setString(2, PlaylistToSave.getName());
-                statement.setInt(3, PlaylistToSave.getAccountid());
+          //      statement.setInt(1, PlaylistToSave.getId());
+                statement.setString(1, PlaylistToSave.getName());
+                statement.setString(2, PlaylistToSave.getAccountid());
                 database.executeUpdate(statement);
             }
 
@@ -94,6 +119,20 @@ public class PlaylistService {
         try {
             if (statement != null) {
                 statement.setInt(1, id);
+                database.executeUpdate(statement);
+            }
+        } catch (SQLException resultsException){
+            System.out.println("Database deletion error: " + resultsException.getMessage());
+        }
+    }
+
+    public static void deleteByName(String name, DatabaseConnection database) {
+
+        PreparedStatement statement = database.newStatement("DELETE FROM Playlist WHERE name = ?");
+
+        try {
+            if (statement != null) {
+                statement.setString(1, name);
                 database.executeUpdate(statement);
             }
         } catch (SQLException resultsException){

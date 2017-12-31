@@ -2,11 +2,11 @@ package model;
 
 public class Songs {
 
-private int id;
-private int artistid;
-private String length;
-private String name;
-private int genreid;
+    private int id;
+    private int artistid;
+    private String length;
+    private String name;
+    private int genreid;
 
     public Songs(int id, int artistid, String length, String name, int genreid) {
         this.id = id;

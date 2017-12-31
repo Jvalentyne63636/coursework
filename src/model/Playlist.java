@@ -4,9 +4,9 @@ public class Playlist {
 
     private int id;
     private String name;
-    private int accountid;
+    private String accountid;
 
-    public Playlist(int id, String name, int accountid) {
+    public Playlist(int id, String name, String accountid) {
         this.id = id;
         this.name = name;
         this.accountid = accountid;
@@ -28,11 +28,11 @@ public class Playlist {
         this.name = name;
     }
 
-    public int getAccountid() {
+    public String getAccountid() {
         return accountid;
     }
 
-    public void setAccountid(int accountid) {
+    public void setAccountid(String accountid) {
         this.accountid = accountid;
     }
 }
