@@ -7,22 +7,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import model.*;
-import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
-import java.awt.*;
-import java.awt.List;
-import java.awt.TextField;
 import java.io.File;
 import java.util.*;
 
@@ -31,13 +24,14 @@ public class Main extends Application {
     DatabaseConnection database;
     ListView songsList;
     ListView playlistList;
-    ListView allSongs;
+    ListView allSongsList;
+
+    File musicFolder = new File("C:\\Users\\JCval\\Desktop\\coursework-master\\playbacksource");
+    File[] musiclist = musicFolder.listFiles();
 
     @Override
     public void start(Stage stage) throws Exception {
         database = new DatabaseConnection("C:\\Users\\JCval\\Desktop\\coursework-master\\Coursework.db");
-
-        AccountService.selectById(3, database);
 
         Pane root = new Pane();
         root.setStyle("-fx-background: #222222;");
@@ -45,6 +39,27 @@ public class Main extends Application {
         stage.setTitle("Elixr");
         stage.getIcons().add(new Image("http://files.coinmarketcap.com.s3-website-us-east-1.amazonaws.com/static/img/coins/200x200/monero.png"));
         stage.setScene(scene);
+
+        Button btnChangePath = new Button("Change path source");
+        btnChangePath.setLayoutX(850);
+        btnChangePath.setLayoutY(720);
+        btnChangePath.setFont(new Font("Arial", 14));
+        root.getChildren().add(btnChangePath);
+
+        btnChangePath.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                DirectoryChooser file = new DirectoryChooser();
+                file.setTitle("Select a new file path");
+                musicFolder = file.showDialog(stage);
+
+//                System.out.println(musicfolder.getAbsolutePath());
+
+//                File[] musiclist = musicfolder.listFiles();
+
+            }
+        });
+
 
         Button btnPlay = new Button("Play");
         btnPlay.setPrefSize(100, 35);
@@ -117,21 +132,23 @@ public class Main extends Application {
         lblVolume.setLayoutY(660);
         root.getChildren().add(lblVolume);
 
-        Button btnNewPlaylist = new Button();
-        btnNewPlaylist.setText("Create new Playlist");
+        Button btnNewPlaylist = new Button("Create new Playlist");
         btnNewPlaylist.setFont(new Font("Arial", 14));
         btnNewPlaylist.setLayoutX(90);
         btnNewPlaylist.setLayoutY(500);
         root.getChildren().add(btnNewPlaylist);
+
+        Button btnDelPlaylist = new Button("Delete Playlist");
+        btnDelPlaylist.setFont(new Font("Arial", 14));
+        btnDelPlaylist.setLayoutX(105);
+        btnDelPlaylist.setLayoutY(550);
+        root.getChildren().add(btnDelPlaylist);
 
         Button btnRefreshSongs = new Button("Refresh Songs");
         btnRefreshSongs.setLayoutX(800);
         btnRefreshSongs.setLayoutY(500);
         btnRefreshSongs.setPrefSize(150, 35);
         root.getChildren().add(btnRefreshSongs);
-
-        File musicfolder = new File("C:\\Users\\JCval\\Desktop\\coursework-master\\playbacksource");
-        File[] musiclist = musicfolder.listFiles();
 
         Label lblAllSongs = new Label();
         lblAllSongs.setText("All Songs");
@@ -152,9 +169,31 @@ public class Main extends Application {
         root.getChildren().add(playlistList);
 
 
+        btnDelPlaylist.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                String name = playlistList.getSelectionModel().getSelectedItem().toString();
+                Playlist playlist = PlaylistService.selectByName(name, database);
+                int playlistId = playlist.getId();
+                PlaylistService.deleteById(playlistId, database);
+                playlistList.getItems().clear();
+
+                ArrayList<Playlist> playlistArray = new ArrayList<>();
+                PlaylistService.selectAll(playlistArray, database);
+                for (int i = 0; i < playlistArray.size(); i++) {
+                    String tempItem = playlistArray.get(i).getName();
+                    playlistList.getItems().add(tempItem);
+                }
+            }
+        });
+
         playlistList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                if (playlistList.getSelectionModel().getSelectedItem() == null) {
+                    return;
+                }
+
                 String tempPlaylistName = playlistList.getSelectionModel().getSelectedItem().toString();
                 openPlaylist(tempPlaylistName);
             }
@@ -288,11 +327,14 @@ public class Main extends Application {
         btnRefreshSongs.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                File musicFolder = new File("C:\\Users\\JCval\\Desktop\\coursework-master\\playbacksource");
                 File[] musicList = musicFolder.listFiles();
-                songsList.getItems().clear();
+                allSongsList.getItems().clear();
                 for (int i = 0; i < musicList.length; i++){
                     File file = musicList[i];
+
+                    if (file.isDirectory()) {
+                        continue;
+                    }
 
                     String name = file.getName();
                     double duration = Playback.getDuration(file.getAbsolutePath());
@@ -326,8 +368,12 @@ public class Main extends Application {
     }
 
     public void playSelectedItem() {
-        String fileName = songsList.getSelectionModel().getSelectedItem().toString();
-        String musicPath = ("C:\\Users\\JCval\\Desktop\\coursework-master\\playbacksource\\" + fileName);
+        if (songsList.getSelectionModel().getSelectedItem() == null) {
+            return;
+        }
+
+        String fileName = fileName = songsList.getSelectionModel().getSelectedItem().toString();
+        String musicPath = (musicFolder.getAbsolutePath().toString() + "\\" + fileName);
         Playback.playFile(musicPath);
     }
 
