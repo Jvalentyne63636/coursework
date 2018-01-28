@@ -106,7 +106,7 @@ public class Main extends Application {
         mySlider1.setMin(0);
         mySlider1.setMax(1);
         root.getChildren().add(mySlider1);
-        mySlider1.setBlockIncrement(0.5);
+        mySlider1.setBlockIncrement(0.1);
         mySlider1.setValue(0.5);
         mySlider1.setLayoutX(80);
         mySlider1.setLayoutY(690);
