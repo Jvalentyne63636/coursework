@@ -20,12 +20,11 @@ public class SongsService {
 
                 while (results.next()){
                     int id = results.getInt("id");
-                    int artistid = results.getInt("artistid");
                     String length = results.getString("length");
                     String name = results.getString("name");
-                    int genreid = results.getInt("genreid");
 
-                    Songs songs = new Songs(id, artistid, length, name, genreid);
+
+                    Songs songs = new Songs(id, length, name);
                     targetList.add(songs);
                 }
             }
@@ -47,13 +46,10 @@ public class SongsService {
                 ResultSet results = database.executeQuery(statement);
 
                 if (results != null) {
-                    int accountid = results.getInt("id");
-                    int artistid = results.getInt("artistid");
                     String length = results.getString("length");
                     String name = results.getString("name");
-                    int genreid = results.getInt("genreid");
 
-                    result = new Songs(id, artistid, length, name, genreid);
+                    result = new Songs(id, length, name);
                 }
             }
         } catch(SQLException resultsException){
@@ -75,12 +71,10 @@ public class SongsService {
 
                 if (results != null) {
                     int id = results.getInt("id");
-                    int artistid = results.getInt("artistid");
                     String length = results.getString("length");
                     String name = results.getString("name");
-                    int genreid = results.getInt("genreid");
 
-                    result = new Songs(id, artistid, length, name, genreid);
+                    result = new Songs(id, length, name);
                 }
             }
         } catch(SQLException resultsException){
@@ -98,19 +92,15 @@ public class SongsService {
 
         try {
             if (existingItem == null) {
-                PreparedStatement statement = database.newStatement("INSERT INTO Songs VALUES (null, ?, ?, ?, ?)");
-                statement.setInt(1, songToSave.getArtistid());
-                statement.setString(2, songToSave.getLength());
-                statement.setString(3, songToSave.getName());
-                statement.setInt(4, songToSave.getGenreid());
+                PreparedStatement statement = database.newStatement("INSERT INTO Songs VALUES (null, ?, ?)");
+                statement.setString(1, songToSave.getLength());
+                statement.setString(2, songToSave.getName());
                 database.executeUpdate(statement);
             }
             else {
-                PreparedStatement statement = database.newStatement("UPDATE Songs SET ArtistID = ?, Length = ?, Name = ?, GenreID = ? WHERE id = ?");
-                statement.setInt(1, songToSave.getArtistid());
-                statement.setString(2, songToSave.getLength());
-                statement.setString(3, songToSave.getName());
-                statement.setInt(4, songToSave.getGenreid());
+                PreparedStatement statement = database.newStatement("UPDATE Songs SET, Length = ?, Name = ? WHERE id = ?");
+                statement.setString(1, songToSave.getLength());
+                statement.setString(2, songToSave.getName());
                 database.executeUpdate(statement);
             }
 

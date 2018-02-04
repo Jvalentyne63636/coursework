@@ -339,8 +339,7 @@ public class Main extends Application {
                     String name = file.getName();
                     double duration = Playback.getDuration(file.getAbsolutePath());
 
-
-                    Songs song = new Songs(-1, -1, String.valueOf(duration), name, -1);
+                    Songs song = new Songs(-1, String.valueOf(duration), name);
                     if (SongsService.selectByName(name, database) == null){
                         SongsService.save(song, database);
                     }
