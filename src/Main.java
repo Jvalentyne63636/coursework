@@ -264,7 +264,7 @@ public class Main extends Application {
 
 
 
-                Playlist playlist = new Playlist(-1, name, "");
+                Playlist playlist = new Playlist(-1, name);
                 if (PlaylistService.selectByName(name, database) == null){
                     PlaylistService.save(playlist, database);
                 }
@@ -353,7 +353,6 @@ public class Main extends Application {
     }
 
     public void openPlaylist(String name) {
-        //String selectedPlaylistName = playlistList.getSelectionModel().getSelectedItem().toString();
 
         ArrayList<String> songNames = new ArrayList<>();
         PlaylistSongsService.selectByPlaylistName(songNames, name, database);

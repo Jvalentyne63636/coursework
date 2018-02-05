@@ -11,20 +11,11 @@ import java.util.ArrayList;
 public class PlaylistSongsService {
 
     public static void save(PlaylistSongs pairingToSave, DatabaseConnection database) {
-        PlaylistSongs existingItem = null;
-
-        //if (pairingToSave.getName() != null) {
-          //  existingItem = selectById(PlaylistToSave.getId(), database);
-        //}
-
         try {
-            if (existingItem == null) {
-                PreparedStatement statement = database.newStatement("INSERT INTO PlaylistSongs VALUES (?, ?)");
-                //             statement.setInt(1, PlaylistToSave.getId());
-                statement.setInt(1, pairingToSave.getPlaylistid());
-                statement.setInt(2, pairingToSave.getSongid());
-                database.executeUpdate(statement);
-            }
+            PreparedStatement statement = database.newStatement("INSERT INTO PlaylistSongs VALUES (?, ?)");
+            statement.setInt(1, pairingToSave.getPlaylistid());
+            statement.setInt(2, pairingToSave.getSongid());
+            database.executeUpdate(statement);
 
         } catch (SQLException resultsException) {
             System.out.println("Database saving error: " + resultsException.getMessage());
@@ -32,7 +23,7 @@ public class PlaylistSongsService {
     }
 
     public static void selectByPlaylistName(ArrayList<String> targetList, String name, DatabaseConnection database) {
-        PreparedStatement statement = database.newStatement("SELECT Songs.name FROM PlaylistSongs INNER JOIN Songs ON PlaylistSongs.songid = Songs.id INNER JOIN Playlist ON PlaylistSongs.playlistid = Playlist.id WHERE Playlist.name = ?");
+        PreparedStatement statement = database.newStatement("SELECT Songs.name FROM Songs INNER JOIN PlaylistSongs on PlaylistSongs.songid = Songs.id INNER JOIN Playlist on Playlist.id = PlaylistSongs.playlistid WHERE Playlist.name = ?");
 
         try {
             if (statement != null) {

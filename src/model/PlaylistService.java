@@ -21,10 +21,9 @@ public class PlaylistService {
                 while (results.next()){
                     int id = results.getInt("id");
                     String name = results.getString("name");
-                    String accountid = results.getString("accountid");
 
 
-                    Playlist playlist = new Playlist(id, name, accountid);
+                    Playlist playlist = new Playlist(id, name);
                     targetList.add(playlist);
                 }
             }
@@ -48,9 +47,8 @@ public class PlaylistService {
                 if (results != null) {
                     id = results.getInt("id");
                     String name = results.getString("name");
-                    String accountid = results.getString("accountid");
 
-                    result = new Playlist(id, name, accountid);
+                    result = new Playlist(id, name);
                 }
             }
         } catch(SQLException resultsException){
@@ -73,9 +71,8 @@ public class PlaylistService {
                 if (results != null) {
                     int id = results.getInt("id");
                     String name = results.getString("name");
-                     String accountid = results.getString("accountid");
 
-                    result = new Playlist(id, name, accountid);
+                    result = new Playlist(id, name);
                 }
             }
         } catch(SQLException resultsException){
@@ -93,17 +90,15 @@ public class PlaylistService {
 
         try {
             if (existingItem == null) {
-                PreparedStatement statement = database.newStatement("INSERT INTO Playlist VALUES (null, ?, ?)");
+                PreparedStatement statement = database.newStatement("INSERT INTO Playlist VALUES (null, ?)");
    //             statement.setInt(1, PlaylistToSave.getId());
                 statement.setString(1, PlaylistToSave.getName());
-                statement.setString(2, PlaylistToSave.getAccountid());
                 database.executeUpdate(statement);
             }
             else {
-                PreparedStatement statement = database.newStatement("UPDATE Playlist SET Id = ?, Name = ?, Accountid = ? WHERE id = ?");
+                PreparedStatement statement = database.newStatement("UPDATE Playlist SET Id = ?, Name = ? WHERE id = ?");
           //      statement.setInt(1, PlaylistToSave.getId());
                 statement.setString(1, PlaylistToSave.getName());
-                statement.setString(2, PlaylistToSave.getAccountid());
                 database.executeUpdate(statement);
             }
 

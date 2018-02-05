@@ -4,12 +4,10 @@ public class Playlist {
 
     private int id;
     private String name;
-    private String accountid;
 
-    public Playlist(int id, String name, String accountid) {
+    public Playlist(int id, String name) {
         this.id = id;
         this.name = name;
-        this.accountid = accountid;
     }
 
     public int getId() {
@@ -28,11 +26,4 @@ public class Playlist {
         this.name = name;
     }
 
-    public String getAccountid() {
-        return accountid;
-    }
-
-    public void setAccountid(String accountid) {
-        this.accountid = accountid;
-    }
 }
