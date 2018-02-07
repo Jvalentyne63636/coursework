@@ -3,11 +3,11 @@ package model;
 public class Songs {
 
     private int id;
-    private String length;
+    private double length;
     private String name;
 
 
-    public Songs(int id, String length, String name) {
+    public Songs(int id, double length, String name) {
         this.id = id;
         this.length = length;
         this.name = name;
@@ -21,11 +21,11 @@ public class Songs {
         this.id = id;
     }
 
-    public String getLength() {
+    public double getLength() {
         return length;
     }
 
-    public void setLength(String length) {
+    public void setLength(double length) {
         this.length = length;
     }
 

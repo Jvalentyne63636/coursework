@@ -336,10 +336,12 @@ public class Main extends Application {
                         continue;
                     }
 
+
+
                     String name = file.getName();
                     double duration = Playback.getDuration(file.getAbsolutePath());
 
-                    Songs song = new Songs(-1, String.valueOf(duration), name);
+                    Songs song = new Songs(-1, (int) duration, name);
                     if (SongsService.selectByName(name, database) == null){
                         SongsService.save(song, database);
                     }
@@ -370,7 +372,7 @@ public class Main extends Application {
             return;
         }
 
-        String fileName = fileName = songsList.getSelectionModel().getSelectedItem().toString();
+        String fileName = songsList.getSelectionModel().getSelectedItem().toString();
         String musicPath = (musicFolder.getAbsolutePath().toString() + "\\" + fileName);
         Playback.playFile(musicPath);
     }

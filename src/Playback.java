@@ -20,6 +20,8 @@ public class Playback {
         File musicFile = new File(filePath);
         Media music = new Media(musicFile.toURI().toString());
 
+        System.out.println(filePath + ", " + musicFile.toURI().toString());
+
         mediaPlayer = new MediaPlayer(music);
         mediaPlayer.setVolume(1);
         mediaPlayer.setAutoPlay(true);

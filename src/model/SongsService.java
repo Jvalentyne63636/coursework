@@ -20,7 +20,7 @@ public class SongsService {
 
                 while (results.next()){
                     int id = results.getInt("id");
-                    String length = results.getString("length");
+                    double length = results.getDouble("length");
                     String name = results.getString("name");
 
 
@@ -46,7 +46,7 @@ public class SongsService {
                 ResultSet results = database.executeQuery(statement);
 
                 if (results != null) {
-                    String length = results.getString("length");
+                    double length = results.getDouble("length");
                     String name = results.getString("name");
 
                     result = new Songs(id, length, name);
@@ -71,7 +71,7 @@ public class SongsService {
 
                 if (results != null) {
                     int id = results.getInt("id");
-                    String length = results.getString("length");
+                    double length = results.getDouble("length");
                     String name = results.getString("name");
 
                     result = new Songs(id, length, name);
@@ -93,13 +93,13 @@ public class SongsService {
         try {
             if (existingItem == null) {
                 PreparedStatement statement = database.newStatement("INSERT INTO Songs VALUES (null, ?, ?)");
-                statement.setString(1, songToSave.getLength());
+                statement.setDouble(1, songToSave.getLength());
                 statement.setString(2, songToSave.getName());
                 database.executeUpdate(statement);
             }
             else {
                 PreparedStatement statement = database.newStatement("UPDATE Songs SET, Length = ?, Name = ? WHERE id = ?");
-                statement.setString(1, songToSave.getLength());
+                statement.setDouble(1, songToSave.getLength());
                 statement.setString(2, songToSave.getName());
                 database.executeUpdate(statement);
             }
