@@ -31,6 +31,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        //creates object to connect the driver and database with
         database = new DatabaseConnection("C:\\Users\\JCval\\Desktop\\coursework-master\\Coursework.db");
 
         Pane root = new Pane();
@@ -258,7 +259,9 @@ public class Main extends Application {
                 dialog.setContentText("Enter playlist name");
                 dialog.setTitle("Playlist");
                 dialog.setHeaderText(null);
+                //displays dialog box and records input
                 Optional<String> result = dialog.showAndWait();
+                //replaces unwanted string characters in string
                 String name = result.toString().replace("Optional","").replace("[","").replace("]","");
                 playlistList.getItems().add(name);
 
@@ -333,6 +336,10 @@ public class Main extends Application {
                     File file = musicList[i];
 
                     if (file.isDirectory()) {
+                        continue;
+                    }
+
+                    if (!file.getAbsolutePath().endsWith(".mp3")) {
                         continue;
                     }
 
